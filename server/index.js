@@ -54,7 +54,7 @@ app.post("/snippets/:id/comments", (req,res)=>{
         text : req.body.text,
     };
 
-    data.snippets.snippet.comment.push(newComment); // adding a new comment for that snippet
+    snippet.comments.push(newComment); // adding a new comment for that snippet
    
     writeDataDb(data); //now overwriting the complete data for db.json
     res.json(newComment);
