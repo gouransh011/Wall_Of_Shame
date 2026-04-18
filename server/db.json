@@ -1,3 +1,10 @@
 {
-    "snippets" : []
+  "snippets": [
+    {
+      "id": 1776444222941,
+      "confession": "I forgot array indexing",
+      "code": "for(let i=0;i<=arr.length;i++){}",
+      "comments": []
+    }
+  ]
 }
