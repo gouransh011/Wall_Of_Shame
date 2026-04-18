@@ -7,6 +7,9 @@ const PORT = 5000;
 const path = require("path");
 const fs = require("fs"); //using node built in file manager required for reading and writing the database.json file
 
+// cors() allows the React frontend (running on port 5173) to talk to this server
+app.use(cors());
+
 // express.json() parses incoming JSON request bodies so we can read req.body that will be used in adding the new snippets in the database
 app.use(express.json());
 
