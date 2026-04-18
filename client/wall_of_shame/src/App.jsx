@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 //useState allows to remember data state and allows to automatically re-renders the frontend if there is any change in the data
 //useEffect - this helps in fetching data from a server
 
+import "./app.css";
+
 function App() {
   const [snippets, setSnippets] = useState([]); //here snippets is my dataset  which is initially empty whereas setSnippets is the function to set update the state of the snippets
 
@@ -16,9 +18,12 @@ function App() {
     <div>
       <h1>Wall of Shame </h1>
       {snippets.map(s => (
-        <div key={s.id}>
-          <h3>{s.confession}</h3>
-          <pre>{s.code}</pre>
+          <div key={s.id} className="card">
+            <div className="confession">
+              {s.confession}
+            </div>
+
+            <pre className="code">{s.code}</pre>
         </div>
       ))}
     </div>
