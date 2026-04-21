@@ -8,6 +8,7 @@ function wallpage() {
   const [snippets, setSnippets] = useState([]); //here snippets is my dataset  which is initially empty whereas setSnippets is the function to set update the state of the snippets
   const [confession, setConfession] = useState(""); // similarly making states for confession and code
   const [code,setCode] = useState("");
+  const [commentText, setCommentText] = useState({});
   useEffect(() => {
     fetch("http://localhost:5000/snippets")
       .then(res => res.json())
@@ -31,42 +32,96 @@ function wallpage() {
       .then(()=>{
         setConfession("");
         setCode("");
-        fetchSnippets();
+        fetchSnippets(); //to refresh the UI
       })
   };
+  const addComment = (snippetId, text) =>{
+        if(!text){
+          alert("Please enter the text field for making the comment");
+          return;
+        }
+        
+        fetch(`http://localhost:5000/snippets/${snippetId}/comments`,{
+          method: "POST",
+          headers: {
+            "Content-Type" : "application/json" 
+          },
+          body: JSON.stringify({text})
+        });
+        fetchSnippets(); //to refresh the UI
+
+        }
   //now we are converting the snippets into html template and returning the html
   return (
     <div>
       <h1>Wall of Shame </h1>
       {/*Now we are creating a form for posting snippets and confession*/}
         <div className="form">
-        <input
-          type="text"
-          placeholder="Write your confession..."
-          value={confession}
-          onChange={(e) => setConfession(e.target.value)}
-        />
+            <input
+              type="text"
+              placeholder="Write your confession..."
+              value={confession}
+              onChange={(e) => setConfession(e.target.value)}
+            />
 
-        <textarea
-          placeholder="Paste your bad code here..."
-          value={code}
-          onChange={(e) => setCode(e.target.value)}
-        ></textarea>
+            <textarea
+              placeholder="Paste your bad code here..."
+              value={code}
+              onChange={(e) => setCode(e.target.value)}
+            ></textarea>
 
-        <button onClick={handleSubmit}>
-          Post
-        </button>
+            <button onClick={handleSubmit}>
+              Post
+            </button>
 
          </div>
-      {snippets.map(s => (
+        {
+        snippets.map(s => (
           <div key={s.id} className="card">
-            <div className="confession">
-              {s.confession}
-            </div>
 
+            <div className="confession">{s.confession}</div>
             <pre className="code">{s.code}</pre>
+
+            <div className="comments">
+
+                {s.comments && s.comments.map(c => (
+                  <div key={c.id} className="comment">
+                    {c.text}
+                  </div>
+                ))}
+
+                
+                <div className="comment-box">
+                  <input
+                    type="text"
+                    placeholder="Add a comment..."
+                    value={commentText[s.id] || ""}
+                    onChange={(e) =>
+                      setCommentText({
+                        ...commentText,
+                        [s.id]: e.target.value
+                      })
+                    }
+                  />
+
+                  <button
+                    onClick={() => {
+                      addComment(s.id, commentText[s.id]);
+                      setCommentText({
+                        ...commentText,
+                        [s.id]: ""
+                      });
+                    }}
+                  >
+                    Add
+                  </button>
+                </div>
+
         </div>
-      ))}
+
+          </div>
+        ))
+        }
     </div>
   );
 }
