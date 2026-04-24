@@ -8,11 +8,21 @@ function wallpage() {
   const [confession, setConfession] = useState(""); // similarly making states for confession and code
   const [code,setCode] = useState("");
   const [commentText, setCommentText] = useState({});
-  const currentUser = "123";
+  
+  let currentUser = localStorage.getItem("userId");
+  
+  if (!currentUser) {
+  currentUser = Date.now().toString();  // unique ID
+  localStorage.setItem("userId", currentUser);
+  }
+  
+  const fetchSnippets = () => {
+  fetch("http://localhost:5000/snippets")
+    .then(res => res.json())
+    .then(data => setSnippets(data));
+  };
   useEffect(() => {
-    fetch("http://localhost:5000/snippets")
-      .then(res => res.json())
-      .then(data => setSnippets(data));
+    fetchSnippets();
   }, []); //we are first fetching the data by going to that URL and then converting it into a json object and then finally storing that data in snippets
 
   //creating the handleSubmit function
@@ -47,8 +57,10 @@ function wallpage() {
             "Content-Type" : "application/json" 
           },
           body: JSON.stringify({text})
-        });
-        fetchSnippets(); //to refresh the UI
+        })
+        .then(() => {
+          fetchSnippets(); // to refresh UI
+        })
 
         }
   //making a function for deleting the snippets
@@ -61,8 +73,11 @@ function wallpage() {
           body: JSON.stringify({
             userId: currentUser
           })
-        });
-        fetchSnippets(); // to refresh UI
+        })
+        .then(() => {
+          fetchSnippets(); // to refresh UI
+        })
+        
   };      
   //now we are converting the snippets into html template and returning the html
   return (
@@ -130,10 +145,12 @@ function wallpage() {
                     Add
                   </button>
 
-
-                  <button onClick={() => deleteSnippets(s.id)}>
-                          Delete
-                  </button>
+            {/*we want the delete button should only appear if it is the user who posted the snippet*/}
+            {s.userId === currentUser && (
+              <button onClick={() => deleteSnippets(s.id)}>
+                Delete
+              </button>
+            )}
                 </div>
 
         </div>
