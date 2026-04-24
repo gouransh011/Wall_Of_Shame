@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 //useEffect - this helps in fetching data from a server
 
 import "../app.css";
-
 function wallpage() {
   const [snippets, setSnippets] = useState([]); //here snippets is my dataset  which is initially empty whereas setSnippets is the function to set update the state of the snippets
   const [confession, setConfession] = useState(""); // similarly making states for confession and code
   const [code,setCode] = useState("");
   const [commentText, setCommentText] = useState({});
+  const currentUser = "123";
   useEffect(() => {
     fetch("http://localhost:5000/snippets")
       .then(res => res.json())
@@ -26,7 +26,7 @@ function wallpage() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ confession, code })
+      body: JSON.stringify({ confession, code ,userId: currentUser})
     })
       .then(res=>res.json())
       .then(()=>{
@@ -51,10 +51,23 @@ function wallpage() {
         fetchSnippets(); //to refresh the UI
 
         }
+  //making a function for deleting the snippets
+  const deleteSnippets = (snippetid) =>{
+          fetch(`http://localhost:5000/snippets/${snippetid}`,{
+          method: "DELETE",
+          headers: {
+            "Content-Type" : "application/json" 
+          },
+          body: JSON.stringify({
+            userId: currentUser
+          })
+        });
+        fetchSnippets(); // to refresh UI
+  };      
   //now we are converting the snippets into html template and returning the html
   return (
     <div>
-      <h1>Wall of Shame </h1>
+      <h1>The Wall of Shame </h1>
       {/*Now we are creating a form for posting snippets and confession*/}
         <div className="form">
             <input
@@ -71,7 +84,7 @@ function wallpage() {
             ></textarea>
 
             <button onClick={handleSubmit}>
-              Post
+              Post to Wall of Shame
             </button>
 
          </div>
@@ -82,6 +95,7 @@ function wallpage() {
             <div className="confession">{s.confession}</div>
             <pre className="code">{s.code}</pre>
 
+           
             <div className="comments">
 
                 {s.comments && s.comments.map(c => (
@@ -114,6 +128,11 @@ function wallpage() {
                     }}
                   >
                     Add
+                  </button>
+
+
+                  <button onClick={() => deleteSnippets(s.id)}>
+                          Delete
                   </button>
                 </div>
 
