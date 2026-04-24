@@ -32,7 +32,8 @@ app.post("/snippets",(req,res)=>{
         id: Date.now(), 
         confession: req.body.confession, 
         code: req.body.code,
-        comments : [] // initially no comment
+        comments : [] ,// initially no comment
+        userId: req.body.userId
     };
     const data = getDataDb();
     data.snippets.push(newSnippet);
@@ -64,4 +65,24 @@ app.post("/snippets/:id/comments", (req,res)=>{
 //Running the server
 app.listen(PORT,()=>{
     console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+app.delete("/snippets/:id", (req,res) => {
+    const data = getDataDb();
+
+    const snippet = data.snippets.find(
+        s => s.id == req.params.id
+    );
+
+    if(snippet.userId !== req.body.userId){
+        return res.json({message: "Not allowed, only user who posted the snippet can delete it"})
+    }
+
+    //Delete snippet
+    data.snippets = data.snippets.filter(
+        s=> s.id != req.params.id
+    );
+    writeDataDb(data);
+
+    res.json({message : "Snippet deleted"});
 });
