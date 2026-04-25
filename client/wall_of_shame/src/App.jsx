@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import WallPage from "./pages/wallpage";
-// import ProfilePage from "./ProfilePage"; // You will create this later
+import Profile from "./pages/profile";
 
 function App() {
   return (
@@ -17,6 +17,7 @@ function App() {
       <div className="container">
         <Routes>
           <Route path="/" element={<WallPage />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </div>
     </BrowserRouter>
