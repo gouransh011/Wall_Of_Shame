@@ -1,36 +1,46 @@
-h1 {
-  font-size: 4rem;
-  color: #ff4d4d;
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #0f0f0f;
   color: white;
+  font-size: 1rem;        
 }
+
+
+h1 {
+  font-size: 2.2rem;      
+  color: #ff4d4d;
+  text-align: center;
+  margin: 30px 0 20px;
+}
+
+
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background-color: #1a1a1a;
-  padding: 1rem 2rem;
-  color: white;
+  padding: 0.9rem 2rem;
   border-bottom: 2px solid #333;
 }
 
 .nav-logo {
-  font-size: 2rem;
+  font-size: 1.3rem;     
   font-weight: bold;
-  color: #ff4d4d; 
+  color: #ff4d4d;
 }
 
 .nav-links {
-  font-size: 1.7rem;
   display: flex;
   gap: 20px;
+  font-size: 1rem;      
 }
 
 .nav-item {
@@ -44,44 +54,13 @@ body {
   color: #ff4d4d;
 }
 
+
 .container {
-
-  margin: 50px;        
-  padding: 40px 50px;   
-}
-.grid {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 25px;  
-}
-.card {
-  background: #1a1a1a;
-  border-radius: 12px;
-  margin:  20px 100px;
-  padding: 20px;            
-  border: 1px solid #333;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-  transition: transform 0.2s ease;
+  max-width: 860px;       
+  margin: 0 auto;
+  padding: 40px 20px;
 }
 
-.card:hover {
-  transform: scale(1.03);
-}
-.confession {
-  color: #ff6b6b;
-  font-weight: bold;
-  margin-bottom: 12px;
-  font-size: 1.88rem;
-}
-.code {
-  background: #000;
-  padding: 12px;
-  border-radius: 6px;
-  font-size: 2rem;
-  line-height: 1.4;
-}
-/* Form container */
 .form {
   display: flex;
   flex-direction: column;
@@ -90,19 +69,18 @@ body {
   margin-bottom: 40px;
 }
 
-/* Input + textarea */
 .form input,
 .form textarea {
-  width: 70%;
-  padding: 10px;
+  width: 100%;
+  max-width: 640px;
+  padding: 10px 14px;
   border-radius: 6px;
   border: 1px solid #333;
   background: #1a1a1a;
   color: white;
   outline: none;
-  font-size: 1.89rem;
+  font-size: 0.95rem;  
 }
-
 
 .form input:focus,
 .form textarea:focus {
@@ -110,21 +88,22 @@ body {
 }
 
 .form textarea {
-  min-height: 100px;
-  resize: none;
+  min-height: 110px;
+  resize: vertical;
+  font-family: monospace;
 }
-
 
 .form button {
-  padding: 13px 20px;
+  padding: 10px 24px;
   background: #ff4d4d;
   border: none;
-  border-radius: 13px;
+  border-radius: 8px;
   color: white;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 0.95rem;     
+  font-weight: 600;
+  transition: background 0.2s;
 }
-
 
 .form button:hover {
   background: #ff1a1a;
@@ -136,73 +115,50 @@ body {
 }
 
 
-.comments {
+.card {
+  background: #1a1a1a;
   border-radius: 12px;
-  margin-top: 12px;
-
-}
-
-
-.comment {
-  background: #222;
-  padding: 6px 10px;
-  border-radius: 5px;
-  margin-bottom: 6px;
-  font-size: 1.7rem;
-  color: #ddd;
-}
-
-
-.comment-box {
-  display: flex;
-  gap: 8px;
-  margin-top: 8px;
-}
-
-
-.comment-box input {
-  flex: 1;
-  padding: 16px 18px;
-  border-radius: 5px;
+  margin: 0 0 20px 0;      
+  padding: 20px;
   border: 1px solid #333;
-  background: #111;
-  color: white;
-  outline: none;
-  font-size: 1.8rem;
-  margin-left: 40px;
-  margin-right: 40px;
-
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s ease;
 }
 
-.comment-box input:focus {
-  border-color: #ff4d4d;
+.card:hover {
+  transform: scale(1.01); 
 }
 
-
-.comment-box button {
-  padding: 6px 12px;
-  background: #ff4d4d;
-  border: none;
-  border-radius: 5px;
-  color: white;
-  cursor: pointer;
-  font-size: 1.3rem;
+.confession {
+  color: #ff6b6b;
+  font-weight: bold;
+  margin-bottom: 12px;
+  font-size: 1rem;      
 }
 
 
-.comment-box button:hover {
-  background: #ff1a1a;
+.code {
+  background: #000;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 0.875rem;     
+  line-height: 1.6;
+  overflow-x: auto;        
+  white-space: pre;
+  color: #f8c555;          
 }
+
 
 .expand-btn {
-  margin-top: 8px;
-  padding: 6px 10px;
+  margin-top: 12px;
+  padding: 6px 12px;
   background: transparent;
   border: 1px solid #444;
   border-radius: 5px;
   color: #ccc;
   cursor: pointer;
-  font-size: 13px;
+  font-size: 0.8rem;
+  transition: border-color 0.2s, color 0.2s;
 }
 
 .expand-btn:hover {
@@ -211,21 +167,80 @@ body {
 }
 
 
+.comments {
+  border-radius: 8px;
+  margin-top: 14px;
+  padding: 12px;
+  background: #111;
+  border: 1px solid #2a2a2a;
+}
+
+.comment {
+  background: #222;
+  padding: 8px 12px;
+  border-radius: 5px;
+  margin-bottom: 8px;
+  font-size: 0.875rem;    
+  color: #ddd;
+  line-height: 1.5;
+}
+
+
+.comment-box {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  align-items: center;
+}
+
+.comment-box input {
+  flex: 1;
+  padding: 8px 12px;      
+  border-radius: 5px;
+  border: 1px solid #333;
+  background: #1a1a1a;
+  color: white;
+  outline: none;
+  font-size: 0.875rem;   
+  margin: 0;              
+}
+
+.comment-box input:focus {
+  border-color: #ff4d4d;
+}
+
+.comment-box button {
+  padding: 8px 16px;
+  background: #ff4d4d;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 0.875rem;    
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+
+.comment-box button:hover {
+  background: #ff1a1a;
+}
+
+
 .delete-container {
   display: flex;
-  justify-content: flex-end;  
-  margin-top: 10px;
+  justify-content: flex-end;
+  margin-top: 12px;
 }
 
 .delete-btn {
-  padding: 6px 12px;
+  padding: 6px 14px;
   background: #2a0000;
   border: 1px solid #ff4d4d;
   border-radius: 6px;
   color: #ff4d4d;
-  font-size: 13px;
+  font-size: 0.8rem;
   cursor: pointer;
-  transition: 0.2s;
+  transition: background 0.2s, color 0.2s;
 }
 
 .delete-btn:hover {
