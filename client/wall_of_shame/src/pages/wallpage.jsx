@@ -6,16 +6,17 @@ import "../app.css";
 function wallpage() {
   const [snippets, setSnippets] = useState([]); //here snippets is my dataset  which is initially empty whereas setSnippets is the function to set update the state of the snippets
   const [confession, setConfession] = useState(""); // similarly making states for confession and code
-  const [code,setCode] = useState("");
-  const [commentText, setCommentText] = useState({});
-  
-  let currentUser = localStorage.getItem("userId");
+  const [code,setCode] = useState("");                    //for the snippets
+  const [commentText, setCommentText] = useState({});    //for making comments
+  const [activeSnippet, setActiveSnippet] = useState(null);             //for making the comment section visible only when clicked with intial state as null as none of the snippet is clicked
+
+  let currentUser = localStorage.getItem("userId"); //providing every web browser a unique id
   
   if (!currentUser) {
-  currentUser = Date.now().toString();  // unique ID
+  currentUser = Date.now().toString();  // unique ID if there doesn't exist already
   localStorage.setItem("userId", currentUser);
   }
-  
+
   const fetchSnippets = () => {
   fetch("http://localhost:5000/snippets")
     .then(res => res.json())
@@ -65,7 +66,7 @@ function wallpage() {
         }
   //making a function for deleting the snippets
   const deleteSnippets = (snippetid) =>{
-          fetch(`http://localhost:5000/snippets/${snippetid}`,{
+          fetch(`http://localhost:5000/snippets/${snippetid}`,{                         //passing a delete request with the field of userId
           method: "DELETE",
           headers: {
             "Content-Type" : "application/json" 
@@ -105,13 +106,17 @@ function wallpage() {
          </div>
         {
         snippets.map(s => (
-          <div key={s.id} className="card">
+          <div key={s.id} className="card" >
 
             <div className="confession">{s.confession}</div>
             <pre className="code">{s.code}</pre>
-
-           
-            <div className="comments">
+            <button className = "expand-btn" onClick = {() => 
+              { setActiveSnippet(activeSnippet === s.id ? null : s.id) }
+              }>
+                {activeSnippet === s.id ? "Hide Comments" : "View Comments"}          {/*maintaing whether the button should have text hide or view coments via state*/ }
+            </button>
+            {/*We want that the comment section should only appear if we click on the card and the that state is managed by the activeSNippet */}
+            {activeSnippet === s.id && (<div className="comments">
 
                 {s.comments && s.comments.map(c => (
                   <div key={c.id} className="comment">
@@ -145,16 +150,19 @@ function wallpage() {
                     Add
                   </button>
 
-            {/*we want the delete button should only appear if it is the user who posted the snippet*/}
-            {s.userId === currentUser && (
-              <button onClick={() => deleteSnippets(s.id)}>
-                Delete
-              </button>
-            )}
                 </div>
+               
 
         </div>
-
+        )}
+        <div className="delete-container">
+            {/*we want the delete button should only appear if it is the user who posted the snippet*/}
+            {s.userId === currentUser && (
+              <button className="delete-btn" onClick={() => deleteSnippets(s.id)}>
+                Delete Snippet
+              </button>
+            )}
+        </div>
           </div>
         ))
         }
