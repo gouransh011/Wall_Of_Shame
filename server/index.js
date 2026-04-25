@@ -53,6 +53,7 @@ app.post("/snippets/:id/comments", (req,res)=>{
     const newComment = {
         id: Date.now(),
         text : req.body.text,
+        userId: req.body.userId
     };
 
     snippet.comments.push(newComment); // adding a new comment for that snippet
