@@ -109,6 +109,10 @@ function wallpage() {
           <div key={s.id} className="card" >
 
             <div className="confession">{s.confession}</div>
+            {/*Displaying the timestamp also*/}
+            <div className="snippet-date">
+              {new Date(s.id).toLocaleString()}
+            </div>
             <pre className="code">{s.code}</pre>
             <button className = "expand-btn" onClick = {() => 
               { setActiveSnippet(activeSnippet === s.id ? null : s.id) }
@@ -119,9 +123,13 @@ function wallpage() {
             {activeSnippet === s.id && (<div className="comments">
 
                 {s.comments && s.comments.map(c => (
-                  <div key={c.id} className="comment">
-                    {c.text}
+                 <div key={c.id} className="comment">
+                  <div className="comment-text">{c.text}</div>
+
+                  <div className="comment-date">
+                    {new Date(c.id).toLocaleString()} {/*Way to convert the Date into a readable format */}
                   </div>
+                </div>
                 ))}
 
                 
