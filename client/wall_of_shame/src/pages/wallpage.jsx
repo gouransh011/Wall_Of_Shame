@@ -57,7 +57,9 @@ function wallpage() {
           headers: {
             "Content-Type" : "application/json" 
           },
-          body: JSON.stringify({text})
+          body: JSON.stringify({
+            text,
+            userId : currentUser})
         })
         .then(() => {
           fetchSnippets(); // to refresh UI
